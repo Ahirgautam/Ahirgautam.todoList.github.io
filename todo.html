@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  :root{
+    --nutral-900:#222831;
+    --nutral-600:#393E46;
+    --base:#EEEEEE;
+    --main-900:#00ADB5;
+    --main-600:#71C9CE;
+    --main-300:#A6E3E9;
+    font-size:17px;
+  }
+  body{
+    background: var(--nutral-900);
+    min-height: 100vh;
+    
+    
+  }
+  .flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  main{
+    height: 100vh;
+    width: 100vw;
+    
+  }
+  .Container{
+    height: 90%;
+    min-height: 500px;
+    width: 90%;
+    
+    
+    display: grid;
+    
+    grid-template-rows: 15% 70% 15%;
+    
+    
+    
+  }
+  .Container > h1{
+    color: var(--base);
+    text-align: center;
+  }
+  
+  .Container > .todo{
+    
+    height: 100%;
+    width: 100%;
+    display: grid;
+    border:2px solid  var(--main-300);
+    grid-template-rows:20% 80%;
+    border-radius: 20px;
+    
+  }
+
+  .todo > .content{
+    height: 100%;
+    width: 100%;
+    background: var(--nutral-600);
+    
+    
+    border-radius: 18px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    overflow: auto;
+  }
+  .todo > .inputBtn{
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--nutral-600);
+    border-radius: 20px;
+    
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+    
+    border-bottom: 2px solid var(--main-300);
+  }
+  .inputBtn button{
+    
+    
+    border: 2px solid  var(--main-900);
+    border-left: none;
+    padding: 15px ;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background: var(--main-600);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .inputBtn input{
+    border: 2px solid  var(--main-900);
+    border-right: none;
+    padding:  17px;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: var(--base);
+  }
+  .inputBtn input:focus{
+    outline: none;
+  }
+  .inputBtn button:hover , 
+  .inputBtn button:active {
+    background: var(--main-900);
+    
+  }
+  
+  .content > ul{
+    height: 100%;
+    width: 100%;
+    list-style: none;
+    position:relative;
+    z-index: 2;
+  }
+  ul li{
+    background: var(--base);
+    width: 100%;
+    height: 20%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    padding: 5%;
+    border-bottom: 1px solid var(--nutral-600);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+  }
+  ul li img{
+    filter: brightness(40%);
+  }
+  ul li:nth-child(even){
+    background-color: var(--main-600);
+    color: var(--base);
+  }
+  ul li:nth-child(even) img{
+    filter: hue-rotate(100deg) brightness(150%);
+  }
+  
+  .Container .progress{
+    
+    height: 100%;
+    width: 100%;
+    
+    
+  }
+  
+  .progress .progress_bar_wraper{
+    height: 50%;
+    width: 80%;
+    border:2px solid  var(--main-600);
+    border-radius: 30px;
+    background: var(--base);
+    overflow: hidden;
+    position: relative;
+  }
+  .progress_bar_wraper .progress_bar{
+    height: 100%;
+    
+    width: 0%;
+    background-image: repeating-linear-gradient(45deg,  var(--main-300) 0% 25%
+        ,var(--main-900)  25% 50% );
+    background-size: 50px 50px;
+
+    container-name: progress_bar;    
+    container-type: inline-size;
+    position: absolute;
+    left: 0;
+    transition: width 500ms ease;
+  }
+  .progress_bar .progress_value{
+    color: var(--nutral-600);
+    font-weight: 900;
+    font-size: 1.2rem;
+  }
+  .progress_bar_wraper .text{
+    position: absolute;
+    color: var(--nutral-600);
+  }
+  
+  @container progress_bar (width < 50px){
+      .progress_bar .progress_value{
+      font-size: .8rem;
+    }
+  }
+  @container progress_bar (width < 25px){
+      .progress_bar .progress_value{
+        display: none;
+    }
+
+</style>
+  
+</head>
+<body>
+
+  <main class="flex">
+    <div class="Container">
+      <h1>TODO LIST</h1>
+      
+      <div class="todo">
+         <div class="inputBtn">
+           <input id="input" placeholder="Add work here..." type="text" onkeydown="checkEnter(event)">
+           <button onclick="addList(event)">Add</button>
+         </div>
+         <div class="content">
+           <ul class="ul">
+             
+           </ul>
+         </div>
+         
+      </div>
+      
+      <div class="progress flex">
+        <div class="progress_bar_wraper flex">
+          <span class="text">progress Bar</span>
+          <div class="progress_bar flex">
+            <span class="progress_value">
+              
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+      let work = [];
+      let count = 0;
+      const obj ={ data: "" , checked : false};
+      
+      const UL = document.querySelector(".ul");
+      const inputText = document.querySelector("#input");
+      const progressBar = document.querySelector(".progress_bar");
+      const progressBarValue = document.querySelector(".progress_value");
+      
+      function checkEnter(event){
+        if(event.key == "Enter"){
+          addList(true , 0);
+        }
+      }
+      
+      function calcProgress()
+      {
+        let complete = 0;
+        
+        work.forEach((ele) =>{
+          if(ele.checked)
+          {
+            complete++;
+          }
+        });
+        
+        let per = complete / count * 100;
+        
+        per = per.toFixed(2);
+        
+        progressBar.style.width = per + "%";
+        progressBarValue.innerText = per;
+        
+      }
+      function addList(isBtnPress , i){
+        if(inputText.value == "" && isBtnPress) return;
+        
+        const li = document.createElement("li");
+        const input = document.createElement("input");
+        const img = document.createElement("img");
+        const span = document.createElement("span");
+        
+        img.src = "icon-delete.svg";
+        img.alt = "icon-delete.svg";
+        img.onclick = () => (deleteList(event));
+        input.type = "checkbox";
+        input.oninput = ()=>(checkChecked(event));
+        li.className = "list";
+        li.append(input);
+        li.append(span);
+        li.append(img);
+        UL.append(li);
+        if(isBtnPress){
+          li.setAttribute("data-index",count++);
+          obj.data = inputText.value;
+          work.push({...obj});
+          span.innerText = inputText.value;
+          storeListData();
+          inputText.value = "";
+        }
+        else{
+          span.innerText = work[i].data;
+          input.checked = work[i].checked;
+          li.setAttribute("data-index",i);
+        }
+        
+        calcProgress();
+      }
+      function storeListData(){
+        localStorage.setItem('work' , JSON.stringify(work));
+      }
+      function getListData(){
+        try{
+         const data = JSON.parse(localStorage.getItem('work'));
+         
+         if(data == null)
+         {
+           throw "empty data";
+         }
+         return data;
+        }catch(e){
+          console.log(e);
+          return 0;
+        }
+      }
+      function checkChecked(event){
+        const parent = event.target.closest(".list").dataset.index;
+        work[parent].checked = event.target.checked;
+        
+        moveList(parent);
+        calcProgress();
+      }
+      function deleteList(event){
+        
+          let copy;
+          const ele = event.target.closest(".list");
+          const index = ele.dataset.index;
+          ele.remove();
+          work.splice(index , 1);
+          const lists = document.querySelectorAll(".list");
+          for(let i = 0; i < work.length; i++)
+          { 
+            lists[i].dataset.index = i;
+          }
+          count--;
+          storeListData();
+          calcProgress();
+      }
+      
+      function moveList(index)
+      {
+        let eles = document.querySelectorAll(".list");
+        const copy = eles[index];
+        eles[index].remove();
+        
+        if(work[index].checked)
+        {
+          UL.append(copy);
+          work.push(work.splice(index , 1)[0]);
+        }
+        else{
+          UL.prepend(copy);
+          work.unshift(work.splice(index , 1)[0]);
+        }
+        eles = document.querySelectorAll(".list");
+        for(let i = 0; i < eles.length; i++)
+        {
+          eles[i].dataset.index = i;
+        }
+        storeListData();
+      }
+      window.addEventListener("load" , ()=>{
+        const result = getListData();
+        if(result)
+        {
+          work = result;
+          count = work.length ;
+          
+          for(let i = 0; i < count; i++){
+            addList(false , i);
+          }
+        }
+        else{
+          console.log("no data found");
+        }
+      })
+  </script>
+</body>
+</html>
