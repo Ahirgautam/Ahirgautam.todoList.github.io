@@ -268,13 +268,22 @@
           }
         });
         
-        let per = complete / count * 100;
-        
-        per = per.toFixed(2);
-        
-        progressBar.style.width = per + "%";
-        progressBarValue.innerText = per;
-        
+        if(count != 0)
+        {
+          let per = complete / count * 100;
+          
+          if(!(Number.isInteger(per)))
+          {
+            per = per.toFixed(2);
+          }
+          progressBar.style.width = per + "%";
+          progressBarValue.innerText = per + "%";
+        }
+        else
+        {
+          progressBar.style.width = 0 + "%";
+          progressBarValue.innerText = 0 + "%";
+        }
       }
       function addList(isBtnPress , i){
         if(inputText.value == "" && isBtnPress) return;
